@@ -180,7 +180,7 @@
 <p>客户端验证是一种发生在输入被实际发送至服务器之前进行的验证。这类验证大都都是通过JavaScript，VBScript或HTML5来完成的。虽然，这对于用户来说响应速度更快体验也更好。但对于恶意攻击者来说，这些验证似乎就显得略为低级。</p>
 <p>##客户端验证绕过</p>
 <p>这种类型的绕过也非常简单，我们可以关闭浏览器上的JavaScript或是在浏览器发出请求之后，在被发送至服务器之前来篡改该HTTP请求即可。</p>
-<p>1. <script type="text/javascript"><br>2. var _validFileExtensions = [“.jpg”, “.jpeg”, “.bmp”, “.gif”, “.png”];<br>3. function Validate(oForm) {<br>4. var arrInputs = oForm.getElementsByTagName(“input”);<br>5. for (var i = 0; i &lt; arrInputs.length; i++) {<br>6. var oInput = arrInputs[i];<br>7. if (oInput.type == “file”) {<br>8. var sFileName = oInput.value;<br>9. if (sFileName.length &gt; 0) {<br>10. var blnValid = false;<br>11. for (var j = 0; j &lt; _validFileExtensions.length; j++) {<br>12. var sCurExtension = _validFileExtensions[j];<br>13. if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).to<br>LowerCase() == sCurExtension.toLowerCase()) {<br>14. blnValid = true;<br>15. break;<br>16. }<br>17. }<br>18.<br>19. if (!blnValid) {<br>20. alert(“Sorry, “ + sFileName + “ is invalid, allowed extensions are: “ + _validFileExtension<br>s.join(“, “));<br>21. return false;<br>22. }<br>23. }<br>24. }<br>25. }<br>26.<br>27. return true;<br>28. }<br>29. </script></p>
+<p>1. <script type="text/javascript"><br>2. var _validFileExtensions = [“.jpg”, “.jpeg”, “.bmp”, “.gif”, “.png”];<br>3. function Validate(oForm) {<br>4. var arrInputs = oForm.getElementsByTagName(“input”);<br>5. for (var i = 0; i &lt; arrInputs.length; i++) {<br>6. var oInput = arrInputs[i];<br>7. if (oInput.type == “file”) {<br>8. var sFileName = oInput.value;<br>9. if (sFileName.length &gt; 0) {<br>10. var blnValid = false;<br>11. for (var j = 0; j &lt; _validFileExtensions.length; j++) {<br>12. var sCurExtension = _validFileExtensions[j];<br>13. if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).to<br>LowerCase() == sCurExtension.toLowerCase()) {<br>14. blnValid = true;<br>15. break;<br>16. }<br>17. }<br>18.<br>19. if (!blnValid) {<br>20. alert(“Sorry, “ + sFileName + “ is invalid, allowed extensions are: “ + _validFileExtension<br>s.join(“, “));</p>
 <p>正如你所看到的，此JavaScript仅在请求被实际发送至服务器之前处理你的请求，以及检查你上传的文件扩展名是否为（jpg，jpeg，bmp，gif，png）。这样的话，我们就可以拦截该请求并篡改文件内容（恶意代码），然后将图片扩展名更改为可执行文件的扩展名（如php，asp）。</p>
 <p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/qq5rfBadR3icEzZgyxjpkIpQnpLK8jV0tvanfn4p4k45ZctLWCQEF3xrZNGnF7GYE3aH1yGPuaRmbd1iaZDXtXSw/640?wx_fmt=jpeg&amp;wxfrom=5&amp;wx_lazy=1" alt="pic"><br>如上图所示，我们试图上传一个直接的PHP文件，JavaScript阻止了我们的文件上传请求。</p>
 <p>我们可以通过浏览器来上传一个正常的图片格式来绕过该验证，然后拦截该请求再将其改回为php格式并将文件内容替换为我们的恶意代码，这样我们就能够成功上传我们的恶意php脚本了。</p>
@@ -205,7 +205,7 @@
 <p>##CONTENT-LENGTH绕过</p>
 <p>1. if ($_FILES[“fileToUpload”][“size”] &gt; 30) {<br>2. echo “Sorry, your file is too large.”;<br>3. }</p>
 <p>针对这种类型的验证，我们可以通过上传一些非常短的恶意代码来绕过。上传文件的大小取决于，Web服务器上的最大长度限制。我们可以使用不同大小的文件来fuzzing上传程序，从而计算出它的限制范围。<br><img src="https://mmbiz.qpic.cn/mmbiz_jpg/qq5rfBadR3icEzZgyxjpkIpQnpLK8jV0tUTvdAHOOFW1PSZsoVaRJfTa4jzzOL45P9dOPzqwBGX300vLCFibStog/640?wx_fmt=jpeg&amp;wxfrom=5&amp;wx_lazy=1" alt="pic"></p>
-
+</script></p>
     </article>
     <!-- 前后页  -->
     <ul class="post-pager">
@@ -389,26 +389,28 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-archive"> Total : 9 </div>
     
     <div class="post-archive">
     
     
     
-    
-    <div class="archive-year"> Invalid date </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2018/08/16/hexo-github遇到的问题/" >[Untitled Post]</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
     
     <div class="archive-year"> Invalid date </div>
     <ul class="year-list">
@@ -436,6 +438,29 @@
         <li class="archive-post-item">
             <span class="archive-post-date">08/11</span><a class="archive-post-title" href= "/2018/08/11/学习Python时总结的小技巧/" >[Untitled Post]</a>
         </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2018/08/16/hexo-github遇到的问题/" >[Untitled Post]</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
     
     
         <li class="archive-post-item">
