@@ -50,11 +50,22 @@
     
 </head>
     
+        <body class="post-body">
+    
     
 <header class="header">
 
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >1988&#39;s Studio.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name"></a>
+            </div>
+    </div>
     
     <a class="home-link" href=/>1988's Studio.</a>
 </header>
@@ -62,20 +73,37 @@
         <div class="site-intro">
     
     <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
             
-    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-img" style="background-image: url(http://oumn0o088.bkt.clouddn.com/post-bg.jpg)"></div>
     <div class="site-intro-placeholder"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
             
+            [Untitled Post]
+            <!-- 404 -->
+            
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
+            
+        </p>
+        <!-- 404 -->
+        
         <!-- 文章页meta -->
+        
+            <!-- 文章页标签  -->
+            
+            <div class="post-intro-meta">
+                <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                <span class="post-intro-time">2018/08/16</span>
+            </div>
         
     </div>
 </div>
@@ -143,66 +171,49 @@
             }
         </script>
         <div class="container container-unloaded">
-            <main class="main index-page">
-    
-    
-    
-        <article class="index-post">
-            <a class="content-show-full" href = "/2018/02/04/Sqlmap-payload修改姿势（二）/" >
-                    <h2 class="abstract-title">
-                        
-                        <span>Sqlmap-payload修改姿势（二）</span>
-                    </h2>
-                <div class="abstract-content">
-                    前两天学习到基本的payload修改姿势，这次继续深挖==
-xml文件的具体标签
+            <main class="main post-page">
+    <article class="article-entry">
+        <hr>
+<p>title: hexo+github遇到的问题==<br>date: 2018-08-16 17:13:15</p>
+<h2 id="tags"><a href="#tags" class="headerlink" title="tags:"></a>tags:</h2><p>我来解释一下前段时间一直没有更博的原因！<br>这个hexo depoly出问题。。</p>
+<p>fatal: could not read Username for ‘<a href="https://github.com" target="_blank" rel="external">https://github.com</a>‘: No error<br>FATAL Something’s wrong. Maybe you can find the solution here: <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">http://hexo.io/docs/troubleshooting.html</a><br>Error: fatal: HttpRequestException encountered.<br>   ʱ<br>bash: /dev/tty: No such device or address<br>error: failed to execute prompt script (exit code 1)<br>fatal: could not read Username for ‘<a href="https://github.com" target="_blank" rel="external">https://github.com</a>‘: No error</p>
+<pre><code>at ChildProcess.&lt;anonymous&gt; (C:\Hexo\node_modules\hexo-util\lib\spawn.js:37:17)
+at emitTwo (events.js:106:13)
+at ChildProcess.emit (events.js:191:7)
+at ChildProcess.cp.emit (C:\Hexo\node_modules\cross-spawn\lib\enoent.js:40:29)
+at maybeClose (internal/child_process.js:920:16)
+at Process.ChildProcess._handle.onexit (internal/child_process.js:230:5)
+</code></pre><p>就这几行代码。</p>
+<p>本来先是尝试了删除.deploy_git 这个文件的方法，但是没有解决问题。</p>
+<p>然后又是什么邮箱账号密码登录出错的原因，试了这些，依然没有作用。就先搁置了这个问题，想着先慢慢写博文，之后解决了再发布。</p>
+<p> 于是拖到了八月份的这天。</p>
+<p>我又开始尝试，结果居然问题出在了我从来没想到地方，是在_config.yml这个配置文件的最后两行，<br>deploy:<br>  type:  git<br>  repository:  git@github.com:ly1988/ly1988.github.io.git<br>  branch:  master</p>
+<p>开始的repo是这样的：<a href="https://github.com/username/" target="_blank" rel="external">https://github.com/username/</a>…<br>之前一直没有问题。不过现在解决了。</p>
 
-来看 boundaries.xml文件，模板里面分别定义了,,,,,六个标签。
-标签：
-标签就是我们使用sqlmap注入时候–level的命令，这个标签分别定义了1-5个等级的发包数量，默认是1，表示做最少的检测，level越高，检测的数量越高。level等于2时会检测cookie字段是否有注入，等于3时会检测User-Agent、Host、Referer等HTTP的头部字段是否有注入。
-标签：该标签说明了sqlmap使用的条件从句，其中always表示测试所有。
-标签:该标签定义了payload写入的位...
-                </div>
-            </a>
-            <div class="abstract-post-meta">
-                <!-- tags  -->
-                
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/02/04</span>
-                </div>
-            </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="content-show-full" href = "/2018/02/02/Sqlmap-payload修改姿势/" >
-                    <h2 class="abstract-title">
-                        
-                        <span>Sqlmap payload修改姿势（一）</span>
-                    </h2>
-                <div class="abstract-content">
-                    首先来讲讲sqlmap6种探测注入类型：
-1,  UNION query SQL injection（可联合查询注入）
+    </article>
+    <!-- 前后页  -->
+    <ul class="post-pager">
+        
+        
+            <li class="previous">
+                <a href= "/2018/08/11/利用暑假高效学习！/" title=  >
+                    <span>Previous Post</span>
+                    <span>[Untitled Post]</span>
+                </a>
+            </li>
+        
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
 
-联合查询简单来说就是通过union关键字将多条查询语句拼接在一起，并且把查询结果作为一个结果以一个表格的形式输出到页面，需要注意的是查询语句要符合1.相同列数2.相似的数据类型3.相同的编码。示例语句：-1’ union select 1,(select user()),(select version())–+，如果 查询结果无法返回到页面，则就需要考虑盲注。
-2,  Error-based SQL injection（报错型注入）
-
-报错注入的核心思想是通过数据库的...
-                </div>
-            </a>
-            <div class="abstract-post-meta">
-                <!-- tags  -->
-                
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer"></span><span class="abstract-time">2018/02/02</span>
-                </div>
-            </div>
-        </article>
+<!-- City版安装代码已完成 -->
     
-    <!-- paginator  -->
+    
+    <!--PC版-->
+
+    <!--PC版-->
+
+
     
 </main>
             <!-- profile -->
@@ -246,6 +257,13 @@ xml文件的具体标签
 </footer>
     </div>
     <!-- toc -->
+    
+    <div class="toc-wrapper">
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#tags"><span class="toc-number">1.</span> <span class="toc-text">tags:</span></a></li></ol>
+    </div>
     
     <div class="back-top">&#xe639;</div>
     <div class="sidebar">
