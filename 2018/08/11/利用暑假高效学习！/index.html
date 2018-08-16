@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
+    <title>
+        
+        1988&#39;s Studio
+        
+    </title>
+    <link rel="icon" href= /assests/favicon.ico>
+    <!-- TODO: 在font-face加载完毕后改变字体  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/webfont/1.6.28/webfontloader.js"></script>
+    <!-- 提前加载place holder  -->
+    <style type="text/css">
+        @font-face {
+            font-family: 'Oswald-Regular';
+            src: url('/font/Oswald-Regular.ttf');
+        }
+    </style>
+    <style type="text/css">
+        .site-intro-placeholder {
+            position: absolute;
+            z-index: -2;
+            top: 0;
+            left: 0px;
+            width: calc(100% + 300px);
+            height: 100%;
+            background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+            background-position: center center;
+            transform: translate3d(-226px, 0, 0);
+            animation: gradient-move 2.5s ease-out 0s 1;
+        }
+        @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+</style>
+    <link rel="stylesheet" href = /css/style.css?v=20171020 />
+    <script src="//cdn.staticfile.org/jquery/3.2.1/jquery.min.js" defer></script>
+    
+    <script src="/scripts/main.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >1988&#39;s Studio.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name"></a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>1988's Studio.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-img" style="background-image: url(http://oumn0o088.bkt.clouddn.com/post-bg.jpg)"></div>
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            [Untitled Post]
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+        </p>
+        <!-- 404 -->
+        
+        <!-- 文章页meta -->
+        
+            <!-- 文章页标签  -->
+            
+            <div class="post-intro-meta">
+                <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                <span class="post-intro-time">2018/08/11</span>
+            </div>
+        
+    </div>
+</div>
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <script>
+            var browser = {
+                    versions: function () {
+                        var u = window.navigator.userAgent;
+                        return {
+                            userAgent: u,
+                            trident: u.indexOf('Trident') > -1, //IE内核
+                            presto: u.indexOf('Presto') > -1, //opera内核
+                            webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+                            gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+                            mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+                            ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+                            android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+                            iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+                            iPad: u.indexOf('iPad') > -1, //是否为iPad
+                            webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+                            weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+                            uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+                        };
+                    }()
+                }
+
+            function fontLoaded(){
+                console.log('font loaded');
+                if (document.getElementsByClassName('site-intro-meta')) {
+                    document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+                    document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+                    var postIntroTags = document.getElementsByClassName('post-intro-tags')[0],
+                        postIntroMeat = document.getElementsByClassName('post-intro-meta')[0];
+                        if (postIntroTags) {
+                            postIntroTags.classList.add('post-fade-in');
+                        }
+                        if (postIntroMeat) {
+                            postIntroMeat.classList.add('post-fade-in');
+                        }
+                    }
+                }
+                
+            console.log("userAgent:" + browser.versions.userAgent);
+            // UC不支持跨域，所以直接显示
+            if (browser.versions.uc) {
+                console.log("UCBrowser");
+                fontLoaded();
+            } else {
+                WebFont.load({
+                    custom: {
+                        families: ['Oswald-Regular']
+                    },
+                    loading: function () {  //所有字体开始加载
+                        // console.log('loading');
+                    },
+                    active: function () {  //所有字体已渲染
+                        fontLoaded();
+                    },
+                    inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+                        console.log('inactive: timeout');
+                        fontLoaded();
+                    },
+                    timeout: 7000 // Set the timeout to two seconds
+                });
+            }
+        </script>
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <hr>
+<p>title: 利用暑假高效学习！<br>date: 2018-08-11 20:06:11</p>
+<h2 id="tags"><a href="#tags" class="headerlink" title="tags:"></a>tags:</h2><p>##暑假来了~</p>
+<p>对于我来说，要是没有规划好自己的整个学习计划，那我的整个暑假就在睡和吃当中度过了，所以我专门从网上找来“如何高效学习“的励志鸡汤，提醒自己！</p>
+<p>我们之所以要高效学习，是“被逼”的。比如很多人喜欢在deadline前几天开始拼命，又比如很多学生在考试前一周开始刷夜，都属于这种情况。</p>
+<p>##干货<br>但是如果没解决好动机问题，在压力之下拼命会让你很容易感到疲惫。可能1个星期，2个星期还可以，再长久不行了。这种情况，最后的结果往往是短时间爆发后更加猛烈地放纵自己。</p>
+<p>我们要的不是1天，1个星期的长时间学习，而是希望能让自己具有大阶段范围内“长时间高效学习”的能力，这种能力，如果你找不到内心真正认可，真正能打动你的动机是很难的。</p>
+<p>个人认为，好的学习动机应该是：具体化、长短结合、并且和自身需求相结合的。</p>
+<p><strong>具体化：</strong></p>
+<p>不要再用无法衡量的目标作为自己的动机，而是让它具体化。和“做更优秀的自己”相比，“我要跳槽到Google去工作”就是具体化的动机和目标。</p>
+<p>动机具体化了，我们才能找到评判的标准，给自己建立反馈机制（这点在后面会详细说），同时我们也更容易把动机分解，具体点说就是根据大小进行分解，根据周期长短进行分解。</p>
+<p>比如“我要跳槽到Google去工作”，大体可以分解成下面的样子：</p>
+<pre><code>a、了解Goolge的岗位需求，以及自己想要应聘岗位的详细要求
+
+b、学习xxx语言和xxx技术，使自己打到Google的招聘要求
+
+c、认识xxx朋友，给自己争取内推机会
+
+d、……
+</code></pre><p>如果再详细一些，上面每个子项还可以继续拆分。</p>
+<p>具体化之后最大的好处是：你非常明白自己学习是为了什么，你应该做什么事情，以及这些事情你进展到什么阶段了。“长时间高效学习”是个没有终点的“无限”过程，具体化动机相当于给这个过程设定方向，埋下路标，让我们不会迷路，能够坚持走下去。</p>
+<p><strong>长短结合：</strong></p>
+<p>上面说到了动机（或者说目标）的拆分，我们应该将整体目标拆分成不同的大小目标，根据完成目标的时间周期以及难度，设定长期目标、中期目标、短期目标。</p>
+<p>就我个人而言，有段时间每天除工作外保持最少5个小时的高效学习，当时我给自己设定的一个整体目标是：我一定要在2015年出版一本自己的书。</p>
+<p>因为出版社已经确定了我的选题（也就是说只要书的内容在规定的时间内写好，书是肯定可以出版的），我便根据这个整体目标给自己确定了不同的周期目标。</p>
+<p>6个月周期：完成新书第一稿的写作</p>
+<p>第1个月：准备期</p>
+<pre><code>第一周：基础资料搜集整理
+
+第二周：确定新书整体框架结构
+
+第三周：与出版社/业内专家沟通，整理反馈意见
+
+第四周：确定新书整体框架结构
+
+第2个月：完成章节1-2初稿的写作
+
+第1周：完成章节1初稿写作
+
+第2-4周：完成章节2初稿写作
+</code></pre><p>……</p>
+<p>实际的目标设定表会比这个更详细一些，限于篇幅不再展开。</p>
+<p>做完目标长短结合的分解之后，每个星期，每一天我都很清楚自己要学习哪些东西，并且完成之后会有很确定的反馈。进入到这个节奏之后，坚持5小时并没有想象的那么难。</p>
+<p>不知道大家有没有这样的感觉：我们去一个陌生的地方，回来的时候总觉得比去的时候快一点。其实路程是一样的，时间也差不多，唯一的区别就是回来的时候我们知道“目的地”在哪里。未知让人恐惧和放弃，但一旦我们知道自己要做到哪一步，就会轻松很多。</p>
+<p><strong>和自身需求结合：</strong></p>
+<p>和自身需求结合，是说动机最好和你最想要的、最需要的东西结合起来。</p>
+<p>很多人将自己难以坚持归因为“自控力不够，意志力不够”。这个结论既对，又不对。每个人的意志力千差万别，意志力足够强的人确实更容易进入到“长时间高效学习“的状态，但其实大部分人意志力都是一般的，可同样很多人也能做到同样的事情。</p>
+<p>如果认为意志力是解决问题的唯一办法，那就会变成另外一个问题了。并且提高意志力，应该是更复杂的一个问题，需要更漫长的时间。</p>
+<p>就事论事，我们要解决的是：平凡人如何做到？一个推荐的方法就是和自身需求相结合。</p>
+<p>“学习一门新的编程语言”是一个动机，但这个动机不够。“学习一门新的编程语言，然后去xx公司工作”就和需求结合了。</p>
+<p>“每个月阅读一本书”是一个动机，同样是不够的。“每个月阅读一本书，然后发书评到豆瓣和朋友圈去接受敬仰的目光”就和需求结合了。</p>
+<p>要想清楚，你想要什么呢？什么是最吸引你的？</p>
+<p>面子、金钱、地位、朋友关系、夫妻关系，这些都是很好的结合点。</p>
+<p>可能有朋友会说这样是不是太功利了？学习不是为自己变得更好吗？</p>
+<p>让自己更好是总的目标，或者说是结果。而且，让自己更好是个没有止境的过程，大部分时候看起来太过遥远。对普通人来说，让自己坚持下去更需要的是近在眼前的东西。</p>
+<p>两者并不矛盾。可能你就是为了钱去学习的，但学习之后并不妨碍你同时也变得更好。</p>
+<p>有时候我们的动机太高大上了，反而缺乏一些接地气的东西。</p>
+<p><strong>身体：</strong></p>
+<p>很多时候，阻碍我们坚持下去的不是我们的意志力，而是我们的身体。</p>
+<p>一学习就犯困，看书2个小时就头痛，天天下班后就没有精神不想学习，很有可能是你的身体已经非常疲惫了，大脑给你发出了“休息”的指令。</p>
+<p>这时候硬逼着自己去学习，效果肯定不会好，而且对身体的伤害也非常大。</p>
+<p>身体素质差，影响的不只是你的精力，还会影响你的心情。压抑、郁闷、抑郁、沮丧，很多负面的情绪让我们根本无法进入学习的状态，而这些负面状态很多时候都是由于缺乏锻炼导致的。</p>
+<p>我是在工作最为繁忙，休息时间最少的那个阶段开始启动晨练计划的。每天再困也好，7点左右准时起床，然后到家里附近的体育场去跑步。不多，跑3-5公里，出一身酣畅淋漓的大汗，然后散步回家。洗澡，吃早餐，上班。</p>
+
+    </article>
+    <!-- 前后页  -->
+    <ul class="post-pager">
+        
+        
+            <li class="previous">
+                <a href= "/2018/08/11/学习Python时总结的小技巧/" title=  >
+                    <span>Previous Post</span>
+                    <span>[Untitled Post]</span>
+                </a>
+            </li>
+        
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!--PC版-->
+
+    <!--PC版-->
+
+
+    
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:944984597@qq.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/1988" class="iconfont-archer github" target="_blank" title="github"></a>
+            
+        
+    
+        
+    
+        
+            
+                <a href="/atom.xml" class="iconfont-archer rss" target="_blank" title="rss"></a>
+            
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">Theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper">
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#tags"><span class="toc-number">1.</span> <span class="toc-text">tags:</span></a></li></ol>
+    </div>
+    
+    <div class="back-top">&#xe639;</div>
+    <div class="sidebar">
+    <div class="sidebar-header sidebar-header-show-archive">
+        <div class="sidebar-category">
+            <span class="sidebar-archive-link"><span class="iconfont-archer">&#xe67d;</span>Archive</span>
+            <span class="sidebar-tags-link"><span class="iconfont-archer">&#xe610;</span>Tag</span>
+        </div>
+    </div>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-archive">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 7 </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/11</span><a class="archive-post-title" href= "/2018/08/11/利用暑假高效学习！/" >[Untitled Post]</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/11</span><a class="archive-post-title" href= "/2018/08/11/学习Python时总结的小技巧/" >[Untitled Post]</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/04</span><a class="archive-post-title" href= "/2018/02/04/Sqlmap-payload修改姿势（二）/" >Sqlmap-payload修改姿势（二）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/02</span><a class="archive-post-title" href= "/2018/02/02/Sqlmap-payload修改姿势/" >Sqlmap payload修改姿势（一）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/23</span><a class="archive-post-title" href= "/2018/01/23/学期总结-寒假计划/" >学期总结&寒假计划</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/23</span><a class="archive-post-title" href= "/2018/01/23/Python学习历程/" >Python学习历程</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/05</span><a class="archive-post-title" href= "/2017/10/05/hello-world/" >Hello World</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-tags">
+    <div class="sidebar-tags-name">
+    
+    </div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #888; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: false
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tag-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var jsInfo = {
+        root: '/'
+    }
+</script>
+    <!-- 不蒜子  -->
+    
+    <!-- CNZZ统计  -->
+    
+    </div>
+    </body>
+</html>
+
+

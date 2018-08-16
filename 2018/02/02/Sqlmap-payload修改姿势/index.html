@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
+    <title>
+        
+        Sqlmap payload修改姿势（一） · 1988&#39;s Studio
+        
+    </title>
+    <link rel="icon" href= /assests/favicon.ico>
+    <!-- TODO: 在font-face加载完毕后改变字体  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/webfont/1.6.28/webfontloader.js"></script>
+    <!-- 提前加载place holder  -->
+    <style type="text/css">
+        @font-face {
+            font-family: 'Oswald-Regular';
+            src: url('/font/Oswald-Regular.ttf');
+        }
+    </style>
+    <style type="text/css">
+        .site-intro-placeholder {
+            position: absolute;
+            z-index: -2;
+            top: 0;
+            left: 0px;
+            width: calc(100% + 300px);
+            height: 100%;
+            background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+            background-position: center center;
+            transform: translate3d(-226px, 0, 0);
+            animation: gradient-move 2.5s ease-out 0s 1;
+        }
+        @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+</style>
+    <link rel="stylesheet" href = /css/style.css?v=20171020 />
+    <script src="//cdn.staticfile.org/jquery/3.2.1/jquery.min.js" defer></script>
+    
+    <script src="/scripts/main.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >1988&#39;s Studio.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">Sqlmap payload修改姿势（一）</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>1988's Studio.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-img" style="background-image: url(http://oumn0o088.bkt.clouddn.com/post-bg.jpg)"></div>
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            Sqlmap payload修改姿势（一）
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+        </p>
+        <!-- 404 -->
+        
+        <!-- 文章页meta -->
+        
+            <!-- 文章页标签  -->
+            
+            <div class="post-intro-meta">
+                <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                <span class="post-intro-time">2018/02/02</span>
+            </div>
+        
+    </div>
+</div>
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <script>
+            var browser = {
+                    versions: function () {
+                        var u = window.navigator.userAgent;
+                        return {
+                            userAgent: u,
+                            trident: u.indexOf('Trident') > -1, //IE内核
+                            presto: u.indexOf('Presto') > -1, //opera内核
+                            webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+                            gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+                            mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+                            ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+                            android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+                            iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+                            iPad: u.indexOf('iPad') > -1, //是否为iPad
+                            webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+                            weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+                            uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+                        };
+                    }()
+                }
+
+            function fontLoaded(){
+                console.log('font loaded');
+                if (document.getElementsByClassName('site-intro-meta')) {
+                    document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+                    document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+                    var postIntroTags = document.getElementsByClassName('post-intro-tags')[0],
+                        postIntroMeat = document.getElementsByClassName('post-intro-meta')[0];
+                        if (postIntroTags) {
+                            postIntroTags.classList.add('post-fade-in');
+                        }
+                        if (postIntroMeat) {
+                            postIntroMeat.classList.add('post-fade-in');
+                        }
+                    }
+                }
+                
+            console.log("userAgent:" + browser.versions.userAgent);
+            // UC不支持跨域，所以直接显示
+            if (browser.versions.uc) {
+                console.log("UCBrowser");
+                fontLoaded();
+            } else {
+                WebFont.load({
+                    custom: {
+                        families: ['Oswald-Regular']
+                    },
+                    loading: function () {  //所有字体开始加载
+                        // console.log('loading');
+                    },
+                    active: function () {  //所有字体已渲染
+                        fontLoaded();
+                    },
+                    inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+                        console.log('inactive: timeout');
+                        fontLoaded();
+                    },
+                    timeout: 7000 // Set the timeout to two seconds
+                });
+            }
+        </script>
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <p>首先来讲讲sqlmap6种探测注入类型：</p>
+<h3>1,  UNION query SQL injection（可联合查询注入）</h3>
+
+<p>联合查询简单来说就是通过union关键字将多条查询语句拼接在一起，并且把查询结果作为一个结果以一个表格的形式输出到页面，需要注意的是查询语句要符合1.相同列数2.相似的数据类型3.相同的编码。示例语句：-1’ union select 1,(select user()),(select version())–+，如果 查询结果无法返回到页面，则就需要考虑盲注。</p>
+<h3>2,  Error-based SQL injection（报错型注入）</h3>
+
+<p>报错注入的核心思想是通过数据库的“人性化的报错定位机制”将我们要查询的数据通过报错的方式直接回显到页面上来，示例语句：’ and (extractvalue(1,concat(0x7e,(select user()),0x7e)))–+，当然如果报错的数据不能回显到页面上来，就无法使用报错注入，这时候我们就可以考虑是否存在盲注。</p>
+<h3>3,  Boolean-based blind SQL injection（布尔型注入）</h3>
+
+<p>布尔盲注的核心思想就是通过判断两种不同的页面状态来进一步推断注入语句是否被执行以及数据是否存在。示例语句：1’ and database() regexp ‘^1’ –+，当我们输入的注入语句无法通过回显以及报错的方式来获取数据，这时候就可能存在盲注，通过判断有跟没有、对或错来判断regexp 是否匹配到数据了。</p>
+<h3>4,  Time-based blind SQL injection（基于时间延迟注入）</h3>
+
+<p>如果在测试的时候发现都不存在前面三种所说的注入，那就有可能是时间盲注，时间盲注的特点是无回显，无报错，也没有多种页面状态。这时候就需要通过增加sleep()函数来判断注入语句的执行，而布尔则是根据页面的对错来判断。示例语句：1’ and sleep(5)–+ 如果sleep则说明存在时间盲注</p>
+<h3>5,  Stacked queries SQL injection（可多语句查询注入）</h3>
+
+<p>多语句查询注入也叫做堆叠查询，与联合查询有点相似，都可以多条语句查询，堆叠查询的关键是分号(;)比较直观的就是如果分号被过滤或者无法绕过就无法注入，当然还有一些数据库引擎不支持，权限不足等限制。</p>
+<h3>6,  Inline queries（内联查询注入）</h3>
+
+<p>一般较少遇到这种情况。</p>
+<h3>sqlmap根据6大类型探测技术生成的payload就放在sqlmap源码中\xml\payloads文件中，根据探测技术分为6个后缀为.xml的文件,每个xml文件分别存放每种注入技术的payload。</h3>
+
+<p><em>到这里突然发现目前用的notepad++里插件的markdown，不支持图片插入，尴尬==我之后再改吧。。</em></p>
+<p>xml就是可扩展标记语言，标准通用标记语言的子集，简单来说就是sqlmap用xml语言来定义多个不同的标签组成一个payload的模板，每个标签有设置不同的等级，通过这样的方式可以实现灵活组合和调用payload。所以我们就必须先了解sqlmap定义的每个标签的意思和作用。</p>
+<p><em>以下是从别处帖子po来的：<br>标签的意思和作用可以直接通过在sqlmap源码的\xml文件夹中的boundaries.xml文件以及\xml\payloads文件夹下的.xml文件的注释中查看,通过查询xml文件中的注释，我们知道sqlmap上的boundaries.xml定义的<boundary>以及payload文件下的xml定义的<test>标签均与sqlmap的payload有密切关系。<br>&lt; boundary &gt;定义了sqlmap注入语句的边界问题，包括注入的发包数量等级，使用的查询从句，注入的位置，使用的特殊字符，前缀，后缀等。为我们清晰地划分了sqlmap注入时的所需要的各个模块等级。<br>而&lt; test &gt;则定义了比较细致完整的测试实例，俗称payload。</test></boundary></em><br>由上面的<boundary>和<test>相结合我们可以得到如下测试语句。</test></boundary></p>
+<p>最终的payload = where + boundary.prefix+test.payload+boundary.suffix，影响最终payload的生成主要由<clause>,<where>标签决定的，当且仅当某个boundary元素的where节点的值包含test元素的子节点where的值，clause节点的值包含test元素的子节点的clause的值时候，该boundary才能和当前的test匹配生成最终的payload。经过测试发现除了这两个文件决定最终payload的生成，还包括sqlmap使用的注入方式以及payload使用的查询语句有关。如果把这两个文件比作两个集合，生成的payload比作两个集合的映射，则这两个集合之间的映射关系是多对多的关系。</where></clause></p>
+<p>之后等我继续学习这篇文章再来写写收获吧。</p>
+
+    </article>
+    <!-- 前后页  -->
+    <ul class="post-pager">
+        
+            <li class="next">
+                <a href= "/2018/02/04/Sqlmap-payload修改姿势（二）/" title= Sqlmap-payload修改姿势（二） >
+                    <span>Next Post</span>
+                    <span>Sqlmap-payload修改姿势（二）</span>
+                </a>
+            </li>
+        
+        
+            <li class="previous">
+                <a href= "/2018/01/23/Python学习历程/" title= Python学习历程 >
+                    <span>Previous Post</span>
+                    <span>Python学习历程</span>
+                </a>
+            </li>
+        
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!--PC版-->
+
+    <!--PC版-->
+
+
+    
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:944984597@qq.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/1988" class="iconfont-archer github" target="_blank" title="github"></a>
+            
+        
+    
+        
+    
+        
+            
+                <a href="/atom.xml" class="iconfont-archer rss" target="_blank" title="rss"></a>
+            
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">Theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper">
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">1,  UNION query SQL injection（可联合查询注入）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">2.</span> <span class="toc-text">2,  Error-based SQL injection（报错型注入）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">3.</span> <span class="toc-text">3,  Boolean-based blind SQL injection（布尔型注入）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">4.</span> <span class="toc-text">4,  Time-based blind SQL injection（基于时间延迟注入）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">5.</span> <span class="toc-text">5,  Stacked queries SQL injection（可多语句查询注入）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">6.</span> <span class="toc-text">6,  Inline queries（内联查询注入）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">7.</span> <span class="toc-text">sqlmap根据6大类型探测技术生成的payload就放在sqlmap源码中\xml\payloads文件中，根据探测技术分为6个后缀为.xml的文件,每个xml文件分别存放每种注入技术的payload。</span></a></li></ol>
+    </div>
+    
+    <div class="back-top">&#xe639;</div>
+    <div class="sidebar">
+    <div class="sidebar-header sidebar-header-show-archive">
+        <div class="sidebar-category">
+            <span class="sidebar-archive-link"><span class="iconfont-archer">&#xe67d;</span>Archive</span>
+            <span class="sidebar-tags-link"><span class="iconfont-archer">&#xe610;</span>Tag</span>
+        </div>
+    </div>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-archive">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 7 </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/11</span><a class="archive-post-title" href= "/2018/08/11/利用暑假高效学习！/" >[Untitled Post]</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/11</span><a class="archive-post-title" href= "/2018/08/11/学习Python时总结的小技巧/" >[Untitled Post]</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/04</span><a class="archive-post-title" href= "/2018/02/04/Sqlmap-payload修改姿势（二）/" >Sqlmap-payload修改姿势（二）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/02</span><a class="archive-post-title" href= "/2018/02/02/Sqlmap-payload修改姿势/" >Sqlmap payload修改姿势（一）</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/23</span><a class="archive-post-title" href= "/2018/01/23/学期总结-寒假计划/" >学期总结&寒假计划</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/23</span><a class="archive-post-title" href= "/2018/01/23/Python学习历程/" >Python学习历程</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/05</span><a class="archive-post-title" href= "/2017/10/05/hello-world/" >Hello World</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-tags">
+    <div class="sidebar-tags-name">
+    
+    </div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #888; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: false
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tag-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var jsInfo = {
+        root: '/'
+    }
+</script>
+    <!-- 不蒜子  -->
+    
+    <!-- CNZZ统计  -->
+    
+    </div>
+    </body>
+</html>
+
+
