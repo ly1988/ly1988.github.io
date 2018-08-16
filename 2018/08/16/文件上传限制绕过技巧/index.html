@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
     <title>
         
-        Hello World · 1988&#39;s Studio
+        1988&#39;s Studio
         
     </title>
     <link rel="icon" href= /assests/favicon.ico>
@@ -63,7 +63,7 @@
                 <a href="/" >1988&#39;s Studio.</a>
             </div>
             <div class="post-title">
-                <a href="#" class="post-name">Hello World</a>
+                <a href="#" class="post-name"></a>
             </div>
     </div>
     
@@ -84,7 +84,7 @@
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            Hello World
+            [Untitled Post]
             <!-- 404 -->
             
         </h1>
@@ -102,7 +102,7 @@
             
             <div class="post-intro-meta">
                 <span class="post-intro-calander iconfont-archer">&#xe676;</span>
-                <span class="post-intro-time">2017/10/05</span>
+                <span class="post-intro-time">2018/08/16</span>
             </div>
         
     </div>
@@ -173,27 +173,50 @@
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+        <hr>
+<p>title: 文件上传限制绕过技巧<br>date: 2018-08-16 17:59:01</p>
+<h2 id="tags"><a href="#tags" class="headerlink" title="tags:"></a>tags:</h2><p>##简介<br>文件上传漏洞是web安全中经常利用到的一种漏洞形式。一些web应用程序中允许上传图片，文本或者其他资源到指定的位置，文件上传漏洞就是利用这些可以上传的地方将恶意代码植入到服务器中，再通过url去访问以执行代码。但在一些安全性较高的web应用中，往往会有各种上传限制和过滤，导致我们无法上传特定的文件。本文将就此展开讨论，通过本文的学习你将了解到Web应用中文件上传的处理和验证发送流程，以及我们该如何绕过这些验证。</p>
+<p>##客户端验证</p>
+<p>客户端验证是一种发生在输入被实际发送至服务器之前进行的验证。这类验证大都都是通过JavaScript，VBScript或HTML5来完成的。虽然，这对于用户来说响应速度更快体验也更好。但对于恶意攻击者来说，这些验证似乎就显得略为低级。</p>
+<p>##客户端验证绕过</p>
+<p>这种类型的绕过也非常简单，我们可以关闭浏览器上的JavaScript或是在浏览器发出请求之后，在被发送至服务器之前来篡改该HTTP请求即可。</p>
+<p>1. <script type="text/javascript"><br>2. var _validFileExtensions = [“.jpg”, “.jpeg”, “.bmp”, “.gif”, “.png”];<br>3. function Validate(oForm) {<br>4. var arrInputs = oForm.getElementsByTagName(“input”);<br>5. for (var i = 0; i &lt; arrInputs.length; i++) {<br>6. var oInput = arrInputs[i];<br>7. if (oInput.type == “file”) {<br>8. var sFileName = oInput.value;<br>9. if (sFileName.length &gt; 0) {<br>10. var blnValid = false;<br>11. for (var j = 0; j &lt; _validFileExtensions.length; j++) {<br>12. var sCurExtension = _validFileExtensions[j];<br>13. if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).to<br>LowerCase() == sCurExtension.toLowerCase()) {<br>14. blnValid = true;<br>15. break;<br>16. }<br>17. }<br>18.<br>19. if (!blnValid) {<br>20. alert(“Sorry, “ + sFileName + “ is invalid, allowed extensions are: “ + _validFileExtension<br>s.join(“, “));<br>21. return false;<br>22. }<br>23. }<br>24. }<br>25. }<br>26.<br>27. return true;<br>28. }<br>29. </script></p>
+<p>正如你所看到的，此JavaScript仅在请求被实际发送至服务器之前处理你的请求，以及检查你上传的文件扩展名是否为（jpg，jpeg，bmp，gif，png）。这样的话，我们就可以拦截该请求并篡改文件内容（恶意代码），然后将图片扩展名更改为可执行文件的扩展名（如php，asp）。</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/qq5rfBadR3icEzZgyxjpkIpQnpLK8jV0tvanfn4p4k45ZctLWCQEF3xrZNGnF7GYE3aH1yGPuaRmbd1iaZDXtXSw/640?wx_fmt=jpeg&amp;wxfrom=5&amp;wx_lazy=1" alt="pic"><br>如上图所示，我们试图上传一个直接的PHP文件，JavaScript阻止了我们的文件上传请求。</p>
+<p>我们可以通过浏览器来上传一个正常的图片格式来绕过该验证，然后拦截该请求再将其改回为php格式并将文件内容替换为我们的恶意代码，这样我们就能够成功上传我们的恶意php脚本了。</p>
+<p>##文件名验证</p>
+<p>顾名思义，就是在文件被上传到服务端的时候，对于文件名的扩展名进行检查，如果不合法，则拒绝这次上传。检查扩展名是否合法有两种常用策略，即黑名单和白名单策略。</p>
+<p>黑名单策略，即文件扩展名在黑名单中的为不合法。白名单策略，即文件扩展名不在白名单中的均为不合法。相对于黑名单，白名单策略更加安全的。通过限制上传类型为只有我们接受的类型，可以较好的保证安全，因为黑名单我们可以使用各种方法来进行注入和突破。</p>
+<p>##文件名绕过</p>
+<p>我们可以通过上传一些平时不怎么用的容易被人忽视的文件扩展名，来绕过这种类型的验证。<br>绕过黑白名单策略：</p>
+<p>黑名单绕过</p>
+<pre><code>通过上传不受欢迎的php扩展来绕过黑名单。例如：pht，phpt，phtml，php3，php4，php5，php6
+</code></pre><p>白名单绕过</p>
+<pre><code>通过某种类型的技巧来绕过白名单，例如添加空字节注入（shell.php％00.gif），或使用双重扩展来上传文件（shell.jpg.php）。
+</code></pre><p>此外，我们还可以尝试扩展名大小写来绕过，例如：pHp，Php，phP。</p>
+<p>##Content-Type验证</p>
+<p>Content-Type（内容类型），一般是指网页中存在的Content-Type，用于定义网络文件的类型和网页的编码，决定文件接收方将以什么形式、什么编码读取这个文件。例如，一些图像文件上传通过检查文件的内容类型是否为图像类型来验证上传的图像。</p>
+<p>##Content-Type绕过</p>
+<p>该类型的绕过也非常简单，只需将“Content-Type”的参数类型更改为“image/ *”即可，例如“image/png”, “image/jpeg”, “image/gif”。</p>
+<p>1. &lt;?php<br>2.<br>3. $mimetype = mime_content_type($_FILES[‘file’][‘tmp_name’]);<br>4. if(in_array($mimetype, array(‘image/jpeg’, ‘image/gif’, ‘image/png’))) {<br>5. move_uploaded_file($_FILES[‘file’][‘tmp_name’], ‘/uploads/‘ . $_FILES[‘file’][‘name’]);<br>6. echo ‘OK’;<br>7.<br>8. } else {<br>9. echo ‘Upload a real image’;<br>10. }</p>
+<p>以上代码会检查Content-Type header中的MIME类型，仅接受类型为image/jpeg, image/gif, image/png的文件上传。我们只需只需将“Content-Type”的参数类型更改为其可接受的类型即可绕过。</p>
+<p>##CONTENT-LENGTH验证</p>
+<p>Content-Length验证是指服务器会对上传的文件内容长度进行检查，超出限制大小的文件将不允许被上传。虽然这种类型的验证不是很受欢迎，但在一些应用的文件上传中也时常能碰到。</p>
+<p>##CONTENT-LENGTH绕过</p>
+<p>1. if ($_FILES[“fileToUpload”][“size”] &gt; 30) {<br>2. echo “Sorry, your file is too large.”;<br>3. }</p>
+<p>针对这种类型的验证，我们可以通过上传一些非常短的恶意代码来绕过。上传文件的大小取决于，Web服务器上的最大长度限制。我们可以使用不同大小的文件来fuzzing上传程序，从而计算出它的限制范围。<br><img src="https://mmbiz.qpic.cn/mmbiz_jpg/qq5rfBadR3icEzZgyxjpkIpQnpLK8jV0tUTvdAHOOFW1PSZsoVaRJfTa4jzzOL45P9dOPzqwBGX300vLCFibStog/640?wx_fmt=jpeg&amp;wxfrom=5&amp;wx_lazy=1" alt="pic"></p>
 
     </article>
     <!-- 前后页  -->
     <ul class="post-pager">
         
-            <li class="next">
-                <a href= "/2018/01/23/学期总结-寒假计划/" title= 学期总结&寒假计划 >
-                    <span>Next Post</span>
-                    <span>学期总结&寒假计划</span>
+        
+            <li class="previous">
+                <a href= "/2018/08/16/hexo-github遇到的问题/" title=  >
+                    <span>Previous Post</span>
+                    <span>[Untitled Post]</span>
                 </a>
             </li>
-        
         
     </ul>
     <!-- 评论插件 -->
@@ -255,7 +278,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick-Start"><span class="toc-number">1.</span> <span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create-a-new-post"><span class="toc-number">1.1.</span> <span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run-server"><span class="toc-number">1.2.</span> <span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate-static-files"><span class="toc-number">1.3.</span> <span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy-to-remote-sites"><span class="toc-number">1.4.</span> <span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#tags"><span class="toc-number">1.</span> <span class="toc-text">tags:</span></a></li></ol>
     </div>
     
     <div class="back-top">&#xe639;</div>
