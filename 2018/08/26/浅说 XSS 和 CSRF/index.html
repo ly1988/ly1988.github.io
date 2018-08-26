@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
     <title>
         
-        Sqlmap payload修改姿势（一） · 1988&#39;s Studio
+        1988&#39;s Studio
         
     </title>
     <link rel="icon" href= /assests/favicon.ico>
@@ -63,7 +63,7 @@
                 <a href="/" >1988&#39;s Studio.</a>
             </div>
             <div class="post-title">
-                <a href="#" class="post-name">Sqlmap payload修改姿势（一）</a>
+                <a href="#" class="post-name"></a>
             </div>
     </div>
     
@@ -84,7 +84,7 @@
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            Sqlmap payload修改姿势（一）
+            [Untitled Post]
             <!-- 404 -->
             
         </h1>
@@ -102,7 +102,7 @@
             
             <div class="post-intro-meta">
                 <span class="post-intro-calander iconfont-archer">&#xe676;</span>
-                <span class="post-intro-time">2018/02/02</span>
+                <span class="post-intro-time">2018/08/26</span>
             </div>
         
     </div>
@@ -173,49 +173,102 @@
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <p>首先来讲讲sqlmap6种探测注入类型：</p>
-<h3>1,  UNION query SQL injection（可联合查询注入）</h3>
+        <hr>
+<p>##浅说 XSS 和 CSRF </p>
+<p>在 Web 安全领域中，XSS 和 CSRF 是最常见的攻击方式。本文将会简单介绍 XSS 和 CSRF 的攻防问题。</p>
+<p>###XSS</p>
+<p>XSS，即 Cross Site Script，中译是跨站脚本攻击；其原本缩写是 CSS，但为了和层叠样式表(Cascading Style Sheet)有所区分，因而在安全领域叫做 XSS。</p>
+<p>XSS 攻击是指攻击者在网站上注入恶意的客户端代码，通过恶意脚本对客户端网页进行篡改，从而在用户浏览网页时，对用户浏览器进行控制或者获取用户隐私数据的一种攻击方式。</p>
+<p>攻击者对客户端网页注入的恶意脚本一般包括 JavaScript，有时也会包含 HTML 和 Flash。有很多种方式进行 XSS 攻击，但它们的共同点为：将一些隐私数据像 cookie、session 发送给攻击者，将受害者重定向到一个由攻击者控制的网站，在受害者的机器上进行一些恶意操作。</p>
+<p>XSS攻击可以分为3类：反射型（非持久型）、存储型（持久型）、基于DOM。</p>
+<p><strong>反射型</strong></p>
+<p>反射型 XSS 只是简单地把用户输入的数据 “反射” 给浏览器，这种攻击方式往往需要攻击者诱使用户点击一个恶意链接，或者提交一个表单，或者进入一个恶意网站时，注入脚本进入被攻击者的网站。</p>
+<p>看一个示例。我先准备一个如下的静态页：<br><img src="./1535287101687.png" alt="Alt text"></p>
+<p>恶意链接的地址指向了 localhost:8001/?q=111&amp;p=222。然后，我再启一个简单的 Node 服务处理恶意链接的请求：</p>
+<p><img src="./1535287224423.png" alt="Alt text"></p>
+<p>当用户点击恶意链接时，页面跳转到攻击者预先准备的页面，会发现在攻击者的页面执行了 js 脚本：</p>
+<p><img src="./1535287248973.png" alt="Alt text"></p>
+<p>这样就产生了反射型 XSS 攻击。攻击者可以注入任意的恶意脚本进行攻击，可能注入恶作剧脚本，或者注入能获取用户隐私数据(如cookie)的脚本，这取决于攻击者的目的。</p>
+<p><strong>存储型</strong></p>
+<p>存储型 XSS 会把用户输入的数据 “存储” 在服务器端，当浏览器请求数据时，脚本从服务器上传回并执行。这种 XSS 攻击具有很强的稳定性。</p>
+<p>比较常见的一个场景是攻击者在社区或论坛上写下一篇包含恶意 JavaScript 代码的文章或评论，文章或评论发表后，所有访问该文章或评论的用户，都会在他们的浏览器中执行这段恶意的 JavaScript 代码。</p>
+<p>举一个示例。<br>先准备一个输入页面：</p>
+<p><img src="./1535287344529.png" alt="Alt text"></p>
+<p>启动一个 Node 服务监听 save 请求。为了简化，用一个变量来保存用户的输入：</p>
+<p><img src="./1535287387494.png" alt="Alt text"></p>
+<p>当用户点击提交按钮将输入信息提交到服务端时，服务端通过 userInput 变量保存了输入内容。当用户通过 <a href="http://localhost:8001/${id}" target="_blank" rel="external">http://localhost:8001/${id}</a> 访问时，服务端会返回与 id 对应的内容(本示例简化了处理)。如果用户输入了恶意脚本内容，则其他用户访问该内容时，恶意脚本就会在浏览器端执行</p>
+<p>###基于DOM</p>
+<p>基于 DOM 的 XSS 攻击是指通过恶意脚本修改页面的 DOM 结构，是纯粹发生在客户端的攻击。</p>
+<p>看如下代码：</p>
+<p><img src="./1535287455350.png" alt="Alt text"></p>
+<p>点击 Submit 按钮后，会在当前页面插入一个链接，其地址为用户的输入内容。如果用户在输入时构造了如下内容：<br>‘’ onclick=alert(/xss/)</p>
+<p>用户提交之后，页面代码就变成了：<br>&lt;  href onlick=”alert(/xss/)”&gt;testLink</p>
+<p>此时，用户点击生成的链接，就会执行对应的脚本</p>
+<p>###XSS 攻击的防范</p>
+<p>现在主流的浏览器内置了防范 XSS 的措施，例如 CSP。但对于开发者来说，也应该寻找可靠的解决方案来防止 XSS 攻击。</p>
+<p>1、HttpOnly 防止劫取 Cookie</p>
+<p>HttpOnly 最早由微软提出，至今已经成为一个标准。浏览器将禁止页面的Javascript 访问带有 HttpOnly 属性的Cookie。</p>
+<p>上文有说到，攻击者可以通过注入恶意脚本获取用户的 Cookie 信息。通常 Cookie 中都包含了用户的登录凭证信息，攻击者在获取到 Cookie 之后，则可以发起 Cookie 劫持攻击。所以，严格来说，HttpOnly 并非阻止 XSS 攻击，而是能阻止 XSS 攻击后的 Cookie 劫持攻击。</p>
+<p>2、输入检查</p>
+<p>不要相信用户的任何输入。 对于用户的任何输入要进行检查、过滤和转义。建立可信任的字符和 HTML 标签白名单，对于不在白名单之列的字符或者标签进行过滤或编码。</p>
+<p>在 XSS 防御中，输入检查一般是检查用户输入的数据中是否包含 &lt;，&gt; 等特殊字符，如果存在，则对特殊字符进行过滤或编码，这种方式也称为 XSS Filter。</p>
+<p>而在一些前端框架中，都会有一份 decodingMap， 用于对用户输入所包含的特殊字符或标签进行编码或过滤，如 &lt;，&gt;，script，防止 XSS 攻击：</p>
+<p><img src="./1535287667105.png" alt="Alt text"></p>
+<p>3、输出检查</p>
+<p>用户的输入会存在问题，服务端的输出也会存在问题。一般来说，除富文本的输出外，在变量输出到 HTML 页面时，可以使用编码或转义的方式来防御 XSS 攻击。例如利用 sanitize-html 对输出内容进行有规则的过滤之后再输出到页面中。</p>
+<p>###CSRF</p>
+<p>CSRF，即 Cross Site Request Forgery，中译是跨站请求伪造，是一种劫持受信任用户向服务器发送非预期请求的攻击方式。</p>
+<p>通常情况下，CSRF 攻击是攻击者借助受害者的 Cookie 骗取服务器的信任，可以在受害者毫不知情的情况下以受害者名义伪造请求发送给受攻击服务器，从而在并未授权的情况下执行在权限保护之下的操作。</p>
+<p>在举例子之前，先说说浏览器的 Cookie 策略。</p>
+<p>###浏览器的 Cookie 策略</p>
+<p>Cookie 是服务器发送到用户浏览器并保存在本地的一小块数据，它会在浏览器下次向同一服务器再发起请求时被携带并发送到服务器上。Cookie 主要用于以下三个方面：</p>
+<pre><code>会话状态管理（如用户登录状态、购物车、游戏分数或其它需要记录的信息）
 
-<p>联合查询简单来说就是通过union关键字将多条查询语句拼接在一起，并且把查询结果作为一个结果以一个表格的形式输出到页面，需要注意的是查询语句要符合1.相同列数2.相似的数据类型3.相同的编码。示例语句：-1’ union select 1,(select user()),(select version())–+，如果 查询结果无法返回到页面，则就需要考虑盲注。</p>
-<h3>2,  Error-based SQL injection（报错型注入）</h3>
+个性化设置（如用户自定义设置、主题等）
 
-<p>报错注入的核心思想是通过数据库的“人性化的报错定位机制”将我们要查询的数据通过报错的方式直接回显到页面上来，示例语句：’ and (extractvalue(1,concat(0x7e,(select user()),0x7e)))–+，当然如果报错的数据不能回显到页面上来，就无法使用报错注入，这时候我们就可以考虑是否存在盲注。</p>
-<h3>3,  Boolean-based blind SQL injection（布尔型注入）</h3>
+个性化设置（如用户自定义设置、主题等）
+</code></pre><p>而浏览器所持有的 Cookie 分为两种：</p>
+<pre><code>Session Cookie(会话期 Cookie)：会话期 Cookie 是最简单的Cookie，它不需要指定过期时间（Expires）或者有效期（Max-Age），它仅在会话期内有效，浏览器关闭之后它会被自动删除。
 
-<p>布尔盲注的核心思想就是通过判断两种不同的页面状态来进一步推断注入语句是否被执行以及数据是否存在。示例语句：1’ and database() regexp ‘^1’ –+，当我们输入的注入语句无法通过回显以及报错的方式来获取数据，这时候就可能存在盲注，通过判断有跟没有、对或错来判断regexp 是否匹配到数据了。</p>
-<h3>4,  Time-based blind SQL injection（基于时间延迟注入）</h3>
+Permanent Cookie(持久性 Cookie)：与会话期 Cookie 不同的是，持久性 Cookie 可以指定一个特定的过期时间（Expires）或有效期（Max-Age）。
+</code></pre><p>通过 Cookie 进行 CSRF 攻击</p>
+<p><strong>CSRF 攻击的防范</strong></p>
+<p>当前，对 CSRF 攻击的防范措施主要有如下几种方式。</p>
+<p>验证码<br>验证码被认为是对抗 CSRF 攻击最简洁而有效的防御方法。</p>
+<p>从上述示例中可以看出，CSRF 攻击往往是在用户不知情的情况下构造了网络请求。而验证码会强制用户必须与应用进行交互，才能完成最终请求。因为通常情况下，验证码能够很好地遏制 CSRF 攻击。</p>
+<p>但验证码并不是万能的，因为出于用户考虑，不能给网站所有的操作都加上验证码。因此，验证码只能作为防御 CSRF 的一种辅助手段，而不能作为最主要的解决方案。</p>
+<p><strong>Referer Check</strong></p>
+<p>根据 HTTP 协议，在 HTTP 头中有一个字段叫 Referer，它记录了该 HTTP 请求的来源地址。通过 Referer Check，可以检查请求是否来自合法的”源”。</p>
+<p>比如，如果用户要删除自己的帖子，那么先要登录 www.c.com，然后找到对应的页面，发起删除帖子的请求。此时，Referer 的值是 <a href="http://www.c.com；当请求是从" target="_blank" rel="external">http://www.c.com；当请求是从</a> www.a.com 发起时，Referer 的值是 <a href="http://www.a.com" target="_blank" rel="external">http://www.a.com</a> 了。因此，要防御 CSRF 攻击，只需要对于每一个删帖请求验证其 Referer 值，如果是以 www.c.com 开头的域名，则说明该请求是来自网站自己的请求，是合法的。如果 Referer 是其他网站的话，则有可能是 CSRF 攻击，可以拒绝该请求。</p>
+<p><strong>referer check</strong></p>
+<p>Referer Check 不仅能防范 CSRF 攻击，另一个应用场景是 “防止图片盗链”。</p>
+<p><strong>添加 token 验证</strong></p>
+<p>CSRF 攻击之所以能够成功，是因为攻击者可以完全伪造用户的请求，该请求中所有的用户验证信息都是存在于 Cookie 中，因此攻击者可以在不知道这些验证信息的情况下直接利用用户自己的 Cookie 来通过安全验证。要抵御 CSRF，关键在于在请求中放入攻击者所不能伪造的信息，并且该信息不存在于 Cookie 之中。可以在 HTTP 请求中以参数的形式加入一个随机产生的 token，并在服务器端建立一个拦截器来验证这个 token，如果请求中没有 token 或者 token 内容不正确，则认为可能是 CSRF 攻击而拒绝该请求。</p>
+<pre><code>1\防御 XSS 攻击
 
-<p>如果在测试的时候发现都不存在前面三种所说的注入，那就有可能是时间盲注，时间盲注的特点是无回显，无报错，也没有多种页面状态。这时候就需要通过增加sleep()函数来判断注入语句的执行，而布尔则是根据页面的对错来判断。示例语句：1’ and sleep(5)–+ 如果sleep则说明存在时间盲注</p>
-<h3>5,  Stacked queries SQL injection（可多语句查询注入）</h3>
+    HttpOnly 防止劫取 Cookie
 
-<p>多语句查询注入也叫做堆叠查询，与联合查询有点相似，都可以多条语句查询，堆叠查询的关键是分号(;)比较直观的就是如果分号被过滤或者无法绕过就无法注入，当然还有一些数据库引擎不支持，权限不足等限制。</p>
-<h3>6,  Inline queries（内联查询注入）</h3>
+    用户的输入检查
 
-<p>一般较少遇到这种情况。</p>
-<h3>sqlmap根据6大类型探测技术生成的payload就放在sqlmap源码中\xml\payloads文件中，根据探测技术分为6个后缀为.xml的文件,每个xml文件分别存放每种注入技术的payload。</h3>
+    服务端的输出检查
 
-<p><em>到这里突然发现目前用的notepad++里插件的markdown，不支持图片插入，尴尬==我之后再改吧。。</em></p>
-<p>xml就是可扩展标记语言，标准通用标记语言的子集，简单来说就是sqlmap用xml语言来定义多个不同的标签组成一个payload的模板，每个标签有设置不同的等级，通过这样的方式可以实现灵活组合和调用payload。所以我们就必须先了解sqlmap定义的每个标签的意思和作用。</p>
-<p><em>以下是从别处帖子po来的：<br>标签的意思和作用可以直接通过在sqlmap源码的\xml文件夹中的boundaries.xml文件以及\xml\payloads文件夹下的.xml文件的注释中查看,通过查询xml文件中的注释，我们知道sqlmap上的boundaries.xml定义的<boundary>以及payload文件下的xml定义的<test>标签均与sqlmap的payload有密切关系。<br>&lt; boundary &gt;定义了sqlmap注入语句的边界问题，包括注入的发包数量等级，使用的查询从句，注入的位置，使用的特殊字符，前缀，后缀等。为我们清晰地划分了sqlmap注入时的所需要的各个模块等级。<br>而&lt; test &gt;则定义了比较细致完整的测试实例，俗称payload。</test></boundary></em><br>由上面的<boundary>和<test>相结合我们可以得到如下测试语句。</test></boundary></p>
-<p>最终的payload = where + boundary.prefix+test.payload+boundary.suffix，影响最终payload的生成主要由<clause>,<where>标签决定的，当且仅当某个boundary元素的where节点的值包含test元素的子节点where的值，clause节点的值包含test元素的子节点的clause的值时候，该boundary才能和当前的test匹配生成最终的payload。经过测试发现除了这两个文件决定最终payload的生成，还包括sqlmap使用的注入方式以及payload使用的查询语句有关。如果把这两个文件比作两个集合，生成的payload比作两个集合的映射，则这两个集合之间的映射关系是多对多的关系。</where></clause></p>
-<p>之后等我继续学习这篇文章再来写写收获吧。</p>
+2\防御 CSRF 攻击
 
+    验证码
+
+    Referer Check
+
+    Token 验证
+</code></pre>
     </article>
     <!-- 前后页  -->
     <ul class="post-pager">
         
-            <li class="next">
-                <a href= "/2018/02/04/Sqlmap-payload修改姿势（二）/" title= Sqlmap-payload修改姿势（二） >
-                    <span>Next Post</span>
-                    <span>Sqlmap-payload修改姿势（二）</span>
-                </a>
-            </li>
-        
         
             <li class="previous">
-                <a href= "/2018/01/23/Python学习历程/" title= Python学习历程 >
+                <a href= "/2018/08/16/文件上传限制绕过技巧/" title=  >
                     <span>Previous Post</span>
-                    <span>Python学习历程</span>
+                    <span>[Untitled Post]</span>
                 </a>
             </li>
         
@@ -279,7 +332,7 @@
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">1,  UNION query SQL injection（可联合查询注入）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">2.</span> <span class="toc-text">2,  Error-based SQL injection（报错型注入）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">3.</span> <span class="toc-text">3,  Boolean-based blind SQL injection（布尔型注入）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">4.</span> <span class="toc-text">4,  Time-based blind SQL injection（基于时间延迟注入）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">5.</span> <span class="toc-text">5,  Stacked queries SQL injection（可多语句查询注入）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">6.</span> <span class="toc-text">6,  Inline queries（内联查询注入）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">7.</span> <span class="toc-text">sqlmap根据6大类型探测技术生成的payload就放在sqlmap源码中\xml\payloads文件中，根据探测技术分为6个后缀为.xml的文件,每个xml文件分别存放每种注入技术的payload。</span></a></li></ol>
+        
     </div>
     
     <div class="back-top">&#xe639;</div>
